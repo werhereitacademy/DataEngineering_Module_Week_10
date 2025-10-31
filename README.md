@@ -1,83 +1,83 @@
 # DataEngineering_Module_Week_10
 
-📘 Instructions: Real-Time Data Streaming with Kafka (Python + Docker)
-1. Requirements
+# 📘 Real-Time Data Streaming with Kafka (Python + Docker)
 
-Docker Desktop must be installed → https://www.docker.com/products/docker-desktop
-
-Python 3.9 or higher must be installed on your computer
-
-You need to install these Python libraries:
-
-pip install kafka-python requests
-
-2. Setting Up the Docker Environment
-
+## 1. Requirements
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) must be installed  
+- Python **3.9+** must be installed  
+- Install required Python libraries:
+  ```bash
+  pip install kafka-python requests
+2. Docker Environment Setup
 Create a folder named kafka_demo on your desktop.
 
-Copy the docker-compose.yml file (given by your instructor) into this folder.
+Copy the docker-compose.yml file (provided by your instructor) into this folder.
 
-Open the command line and go to this folder:
+Open a terminal and navigate to the folder:
 
-cd Desktop\kafka_demo
+bash
+Copy code
+cd Desktop/kafka_demo
+Start Kafka and its UI:
 
-
-Start Kafka and its user interface:
-
+bash
+Copy code
 docker compose up -d
+Services:
 
+🧩 Kafka Broker → localhost:9092
 
-✅ Kafka Broker: localhost:9092
-✅ Kafka UI: http://localhost:8081
- → Interface for Kafka settings
-✅ Kafka Public Broker: localhost:9093
+🌐 Kafka UI → http://localhost:8081
 
-To stop the services:
+🔗 Kafka Public Broker → localhost:9093
 
+To stop services:
+
+bash
+Copy code
 docker compose down
-
 3. WeatherAPI Settings
+API Endpoint:
 
-The API endpoint to use:
-
+pgsql
+Copy code
 http://api.weatherapi.com/v1/current.json?key={API_KEY}&q=Amsterdam&aqi=no
-
-
 Replace {API_KEY} with your own API key.
 
-You can get a free API key from: https://www.weatherapi.com/
+Get a free API key from WeatherAPI.
 
 4. Public Access with Ngrok
+To make data readable by Fabric (public access):
 
-(We use this to make data readable from Fabric by making it public)
+Create an account at Ngrok Dashboard.
 
-Create an Ngrok account → https://dashboard.ngrok.com
+Install Ngrok on your computer.
 
-Install Ngrok on your computer
+Run this command:
 
-Run this command in the terminal:
-
+bash
+Copy code
 ngrok tcp 9093
+⚠️ Note:
+To use the TCP tunnel, you must add your credit card info under
+Settings → Account in your Ngrok dashboard. This is only for identity verification — you won’t be charged.
 
+Ngrok will provide an address like:
 
-⚠️ Note: To use TCP tunnels, you must enter your credit card info in
-Settings > Account on your Ngrok dashboard. You won’t be charged — it’s only for identity verification.
-
-Ngrok will give you an address like this:
-
+cpp
+Copy code
 tcp://<ngrok-host>:<ngrok-port>
 Example: tcp://6.tcp.eu.ngrok.io:17090
+Use this address in your Docker configuration under:
 
-
-You can connect to your local Kafka producer from the outside (for example, from Fabric Spark) using this address.
-You also need to add this address to the KAFKA_ADVERTISED_LISTENERS section in your Docker setup file.
-
+nginx
+Copy code
+KAFKA_ADVERTISED_LISTENERS
 5. Tasks
 🧩 Producer
-
 Create a Python file.
 
-Get the following data from WeatherAPI:
+Fetch data from WeatherAPI including:
 
 City
 
@@ -94,23 +94,47 @@ Last updated
 Send this data to Kafka every 60 seconds.
 
 🖥️ Consumer 1 – Python
-
 Create another Python file.
 
-It should read real-time data from Kafka and show the current wind speed on the console.
+It should read real-time data from Kafka and display the current wind speed in the console.
 
 ⚡ Consumer 2 – Spark
-
-In the Fabric portal, create a new Notebook.
+In Fabric, create a new Notebook.
 
 Start a Spark session.
 
-Use Structured Streaming to read the data coming from Ngrok.
+Use Structured Streaming to read data from Ngrok.
 
-Add a timestamp to each record automatically.
+Add an automatic timestamp to each record.
 
-Calculate the average temperature in a 5-minute window.
+Calculate the average temperature within a 5-minute window.
 
-Move the window every 1 minute (so the average updates each minute).
+Slide the window every 1 minute to update the average dynamically.
 
-Save the results to your Lakehouse in Delta format under the table name avg_temperature.
+Save the results in Delta format to the Lakehouse table named:
+
+nginx
+Copy code
+avg_temperature
+🧠 Summary
+This project demonstrates:
+
+Real-time data streaming using Kafka
+
+Data ingestion from WeatherAPI
+
+Public data access with Ngrok
+
+Real-time analytics in Spark Structured Streaming
+
+🧩 Folder Structure Example
+Copy code
+kafka_demo/
+│
+├── docker-compose.yml
+├── producer.py
+├── consumer_python.py
+├── consumer_spark_notebook.ipynb
+└── README.md
+✨ Author
+Prepared as part of a Kafka Real-Time Streaming Demo (Python + Docker + Spark).
