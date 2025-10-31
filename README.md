@@ -1,83 +1,67 @@
 # DataEngineering_Module_Week_10
 
-# 📘 Real-Time Data Streaming with Kafka (Python + Docker)
+# Real-Time Data Streaming with Kafka (Python + Docker)
 
 ## 1. Requirements
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) must be installed  
-- Python **3.9+** must be installed  
-- Install required Python libraries:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- Python 3.9+
+- Python libraries:
   ```bash
   pip install kafka-python requests
-2. Docker Environment Setup
-Create a folder named kafka_demo on your desktop.
+2. Docker Setup
+Create a folder named kafka_demo.
 
-Copy the docker-compose.yml file (provided by your instructor) into this folder.
+Copy the provided docker-compose.yml file into this folder.
 
-Open a terminal and navigate to the folder:
+Open terminal and navigate to the folder:
 
 bash
-Copy code
 cd Desktop/kafka_demo
-Start Kafka and its UI:
+Start Kafka and UI:
 
 bash
-Copy code
 docker compose up -d
-Services:
+Kafka Services
+Kafka Broker: localhost:9092
 
-🧩 Kafka Broker → localhost:9092
+Kafka UI: http://localhost:8081
 
-🌐 Kafka UI → http://localhost:8081
-
-🔗 Kafka Public Broker → localhost:9093
+Kafka Public Broker: localhost:9093
 
 To stop services:
 
 bash
-Copy code
 docker compose down
 3. WeatherAPI Settings
-API Endpoint:
+Endpoint:
 
-pgsql
-Copy code
+Code
 http://api.weatherapi.com/v1/current.json?key={API_KEY}&q=Amsterdam&aqi=no
-Replace {API_KEY} with your own API key.
-
-Get a free API key from WeatherAPI.
+Replace {API_KEY} with your own key from WeatherAPI
 
 4. Public Access with Ngrok
-To make data readable by Fabric (public access):
+Create an account: Ngrok Dashboard
 
-Create an account at Ngrok Dashboard.
+Install Ngrok
 
-Install Ngrok on your computer.
-
-Run this command:
+Run:
 
 bash
-Copy code
 ngrok tcp 9093
-⚠️ Note:
-To use the TCP tunnel, you must add your credit card info under
-Settings → Account in your Ngrok dashboard. This is only for identity verification — you won’t be charged.
+⚠️ TCP tunnels require credit card verification (no charges).
 
-Ngrok will provide an address like:
+Example address:
 
-cpp
-Copy code
-tcp://<ngrok-host>:<ngrok-port>
-Example: tcp://6.tcp.eu.ngrok.io:17090
-Use this address in your Docker configuration under:
+Code
+tcp://6.tcp.eu.ngrok.io:17090
+Update KAFKA_ADVERTISED_LISTENERS in docker-compose.yml with this address.
 
-nginx
-Copy code
-KAFKA_ADVERTISED_LISTENERS
 5. Tasks
-🧩 Producer
-Create a Python file.
+🧩 Producer (Python)
+Create producer.py
 
-Fetch data from WeatherAPI including:
+Fetch every 60 seconds:
 
 City
 
@@ -91,50 +75,29 @@ Local time
 
 Last updated
 
-Send this data to Kafka every 60 seconds.
+Send to Kafka topic.
 
 🖥️ Consumer 1 – Python
-Create another Python file.
+Create consumer.py
 
-It should read real-time data from Kafka and display the current wind speed in the console.
+Read from Kafka
 
-⚡ Consumer 2 – Spark
-In Fabric, create a new Notebook.
+Print wind speed to console
 
-Start a Spark session.
+⚡ Consumer 2 – Spark (Fabric Notebook)
+Start Spark session
 
-Use Structured Streaming to read data from Ngrok.
+Use Structured Streaming via Ngrok
 
-Add an automatic timestamp to each record.
+Add timestamp to each record
 
-Calculate the average temperature within a 5-minute window.
+Calculate average temperature:
 
-Slide the window every 1 minute to update the average dynamically.
+5-minute window
 
-Save the results in Delta format to the Lakehouse table named:
+Slide every 1 minute
 
-nginx
-Copy code
-avg_temperature
-🧠 Summary
-This project demonstrates:
+Save to Lakehouse in Delta format:
 
-Real-time data streaming using Kafka
-
-Data ingestion from WeatherAPI
-
-Public data access with Ngrok
-
-Real-time analytics in Spark Structured Streaming
-
-🧩 Folder Structure Example
-Copy code
-kafka_demo/
-│
-├── docker-compose.yml
-├── producer.py
-├── consumer_python.py
-├── consumer_spark_notebook.ipynb
-└── README.md
-✨ Author
-Prepared as part of a Kafka Real-Time Streaming Demo (Python + Docker + Spark).
+Code
+Table name: avg_temperature
