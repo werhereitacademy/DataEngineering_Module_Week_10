@@ -12,3 +12,32 @@
 - 📦 Required Python libraries:
   ```bash
   pip install kafka-python requests
+
+⚙️ Setting Up the Docker Environment
+These steps will start your Kafka Broker and its user interface.
+
+Create a folder named kafka_demo on your desktop.
+
+Copy the docker-compose.yml file (given by your instructor) into this folder.
+
+Open the command line and go to this folder:
+
+Bash
+
+cd Desktop\kafka_demo
+Start Kafka and its user interface:
+
+Bash
+
+docker compose up -d
+✅ Kafka Broker: localhost:9092
+
+✅ Kafka UI: http://localhost:8081 → Interface for Kafka settings
+
+✅ Kafka Public Broker: localhost:9093
+
+To stop the services:
+
+Bash
+
+docker compose down
