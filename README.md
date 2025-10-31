@@ -1,7 +1,5 @@
 # DataEngineering_Module_Week_10
 
-Tabii! İşte ödevin İngilizceye **B1 seviyesinde** çevrilmiş hâli 👇
-
 ---
 
 ## 📘 Instructions: Real-Time Data Streaming with Kafka (Python + Docker)
@@ -121,6 +119,4 @@ You also need to add this address to the **`KAFKA_ADVERTISED_LISTENERS`** sectio
 
 ---
 
-İstersen bu metni ödev formatında (örneğin PDF veya Word olarak) düzenleyip başlık ve biçimlendirmeyle hazırlayabilirim.
-Böyle bir versiyon ister misin?
 
